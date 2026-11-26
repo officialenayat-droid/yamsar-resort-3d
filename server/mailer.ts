@@ -4,6 +4,7 @@
  * Sending is fire-and-forget: a mail failure never blocks or fails a booking.
  */
 import nodemailer, { type Transporter } from 'nodemailer'
+import process from 'node:process'
 import { inr, parseDay } from '../shared/pricing.ts'
 import type { Booking, PublicConfig } from '../shared/types.ts'
 
@@ -75,7 +76,12 @@ async function send(to: string[], subject: string, html: string, text: string, r
 }
 
 /** Run without awaiting; errors are logged and surfaced in the admin status. */
-const background = (p: Promise<unknown>) => void p.catch(() => {})
+const background = (p: Promise<unknown>) => {
+  const safe = p.catch(() => {})
+  // on Supabase Edge, keep the worker alive until the email is sent
+  const rt = (globalThis as unknown as { EdgeRuntime?: { waitUntil(p: Promise<unknown>): void } }).EdgeRuntime
+  rt?.waitUntil(safe)
+}
 
 // ───────────────────────── templates ─────────────────────────
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!)

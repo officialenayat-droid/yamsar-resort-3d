@@ -1,0 +1,31 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:hono@4.13.22": "4.13.22",
+    "npm:nodemailer@10.6.1": "10.6.1",
+    "npm:postgres@4.1.1": "4.1.1",
+    "npm:zod@4.6.7": "4.6.7"
+  },
+  "npm": {
+    "hono@4.13.22": {
+      "integrity": "sha512-wncKd5/40Pj8grx0RZ2fgNIicFEmVFwIHT5UFLTnphR8I6AQWFf9c2JoM6ZJ9g8y4pMzg3sNlCVNe0m2Yclg0Q=="
+    },
+    "nodemailer@10.6.1": {
+      "integrity": "sha512-d7kfFfS/tR4Aca+SBvRaQ+MXKNv7d2JiRe5TxaRcFT/kYMh4GGPnW9aKksTIEvyEbA7d/7HYWE4YPDEHxzJj/g=="
+    },
+    "postgres@4.1.1": {
+      "integrity": "sha512-1kJDojqNZC+iTHHXh6eif0J98LUtyLAePe/qkW1GK35eh2JixlsAiIKq3FGI+xqI+SUGTNodzf7TScVeIIyUug=="
+    },
+    "zod@4.6.7": {
+      "integrity": "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:hono@4.13.22",
+      "npm:nodemailer@10.6.1",
+      "npm:postgres@4.1.1",
+      "npm:zod@4.6.7"
+    ]
+  }
+}

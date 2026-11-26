@@ -1,6 +1,6 @@
 # The Yamsar Resort website
 
-The 3D storybook site, plus a small booking server and admin dashboard. It all runs as one Node process.
+The 3D storybook site, plus a small booking API and admin dashboard. Locally it runs as one Node process; in production it runs on Vercel and Supabase.
 
 ## Run locally
 
@@ -8,7 +8,7 @@ Needs Node 22.18 or newer. The database uses Node's built-in SQLite, so there's 
 
 ```bash
 npm install
-npm run api      # booking server on :8787 (restarts on change)
+npm run api      # booking API on :8787 with local SQLite (restarts on change)
 npm run dev      # website on :5173 (proxies /api to the server)
 ```
 
@@ -19,14 +19,21 @@ On first run the server prints a generated admin password. To use your own, set 
 
 ## Production
 
-```bash
-npm run build
-npm start        # serves the built site, /admin and /api on $PORT (default 8787)
-```
+The same API code runs in two places:
 
-Deploy it on any host that runs a long-lived Node process: a VPS, Railway, Render or Fly. It needs a **persistent disk** for `data/yamsar.db`. Back that file up; it holds every booking.
+| | Storage | Entry point |
+|---|---|---|
+| **Vercel + Supabase** (recommended) | Supabase Postgres (`website` schema) | `supabase/functions/api/index.ts` (Edge Function) |
+| Single Node server (VPS) | SQLite file `data/yamsar.db` | `server/node.ts` → `npm run build && npm start` |
 
-Behind nginx or a platform proxy, set `TRUST_PROXY=1` so rate limiting sees real visitor IPs.
+**Vercel + Supabase setup**
+
+1. Apply `supabase/migrations/*.sql` to the Supabase project.
+2. Deploy the `api` Edge Function with JWT verification **off**. The app does its own admin auth.
+3. Add Edge Function secrets: `ADMIN_PASSWORD` (first login only), and optionally `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM` and `SITE_URL`.
+4. In `vercel.json`, replace `SUPABASE_PROJECT_REF` with the project ref. Then import the GitHub repo in Vercel; every push to `main` redeploys.
+
+`ADMIN_PASSWORD` only sets the **first** password. After that, change it in Admin → Settings. To force a reset, set `ADMIN_PASSWORD_RESET=1` together with a new `ADMIN_PASSWORD`, log in once, then remove the reset flag.
 
 ## Email notifications
 
