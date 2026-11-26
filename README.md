@@ -33,7 +33,7 @@ hPanel → **Websites → Add website → Node.js web app → GitHub**. Then pic
 |---|---|
 | Application type | **Hono** (or Other) |
 | Root directory | *(empty)* |
-| Build script | **build:hostinger** |
+| Build script | **build** (default; if a dropdown appears, `build` or `build:hostinger` both work) |
 | Output directory | *(empty)* |
 | Entry file | **build/server.mjs** |
 | Node.js version | **22** (or 24) |
