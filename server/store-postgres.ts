@@ -1,4 +1,4 @@
-/** Postgres store (postgres.js). Used by the Supabase Edge Function in production. Schema: supabase/migrations. */
+/** Postgres store (postgres.js). Optional: DATABASE_URL=postgres://… Schema: db/postgres-schema.sql */
 import postgres from 'postgres'
 import type { Block, Booking, BookingStatus, CabinId } from '../shared/types.ts'
 import { ACTIVE_STATUSES, type BookingFilter, type Store } from './store.ts'

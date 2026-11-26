@@ -1,7 +1,8 @@
 /**
- * Storage interface used by the API. Two implementations:
- *   store-sqlite.ts   – Node's built-in SQLite (local dev / single-server hosting)
- *   store-postgres.ts – Postgres (Supabase Edge Functions in production)
+ * Storage interface used by the API. Three implementations:
+ *   store-mysql.ts    – MySQL / MariaDB (Hostinger, production)
+ *   store-sqlite.ts   – Node's built-in SQLite (local dev)
+ *   store-postgres.ts – Postgres (optional, e.g. Supabase)
  */
 import { DEFAULT_CONFIG } from '../shared/defaults.ts'
 import { nightsBetween } from '../shared/pricing.ts'

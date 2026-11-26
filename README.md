@@ -1,6 +1,6 @@
 # The Yamsar Resort website
 
-The 3D storybook site, plus a small booking API and admin dashboard. Locally it runs as one Node process; in production it runs on Vercel and Supabase.
+The 3D storybook site, plus a small booking API and admin dashboard, all served by one Node app. In production it runs on **Hostinger** (Node.js web app + MySQL).
 
 ## Run locally
 
@@ -17,27 +17,72 @@ npm run dev      # website on :5173 (proxies /api to the server)
 
 On first run the server prints a generated admin password. To use your own, set `ADMIN_PASSWORD` in `.env` (copy `.env.example`).
 
-## Production
+## Deploy to Hostinger
 
-The same API code runs in two places:
+Needs a **Business** or **Cloud** hosting plan; those include Node.js web apps and MySQL.
 
-| | Storage | Entry point |
-|---|---|---|
-| **Vercel + Supabase** (recommended) | Supabase Postgres (`website` schema) | `supabase/functions/api/index.ts` (Edge Function) |
-| Single Node server (VPS) | SQLite file `data/yamsar.db` | `server/node.ts` → `npm run build && npm start` |
+### 1. Create the database
+hPanel → **Websites → Manage → Databases → Add database**.
+Choose a name, user and strong password, and note all three. Hostinger adds a prefix such as `u123456789_`.
+The app creates its own tables on first start: `ymr_kv`, `ymr_bookings` and `ymr_blocks`. Nothing to import.
 
-**Vercel + Supabase setup**
+### 2. Add the Node.js app
+hPanel → **Websites → Add website → Node.js web app → GitHub**. Then pick `officialenayat-droid/yamsar-resort-3d`, branch `main`.
 
-1. Apply `supabase/migrations/*.sql` to the Supabase project.
-2. Deploy the `api` Edge Function with JWT verification **off**. The app does its own admin auth.
-3. Add Edge Function secrets: `ADMIN_PASSWORD` (first login only), and optionally `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM` and `SITE_URL`.
-4. In `vercel.json`, replace `SUPABASE_PROJECT_REF` with the project ref. Then import the GitHub repo in Vercel; every push to `main` redeploys.
+| Setting | Value |
+|---|---|
+| Application type | **Hono** (or Other) |
+| Root directory | *(empty)* |
+| Build script | **build:hostinger** |
+| Output directory | *(empty)* |
+| Entry file | **build/server.mjs** |
+| Node.js version | **22** (or 24) |
+| Package manager | npm |
 
-`ADMIN_PASSWORD` only sets the **first** password. After that, change it in Admin → Settings. To force a reset, set `ADMIN_PASSWORD_RESET=1` together with a new `ADMIN_PASSWORD`, log in once, then remove the reset flag.
+### 3. Environment variables
+Add these, or use **Import .env**. `.env.example` lists them all.
+
+```
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=u123456789_yamsar
+DB_USER=u123456789_yamsar
+DB_PASSWORD=<database password>
+ADMIN_PASSWORD=<first admin password>
+SITE_URL=https://yamsarresort.in
+```
+
+Use `127.0.0.1`, not `localhost`, as Hostinger requires. Add the `SMTP_*` variables too if you want email (see below).
+Hostinger may list other variable names it found in the code, such as `DATABASE_URL` or `DB_PATH`. Leave those out or delete them; they're optional.
+
+### 4. Deploy and check
+Click **Deploy**. When it's green:
+- Open the site. Then go to `/admin` and sign in with `ADMIN_PASSWORD`. Change the password under Settings.
+- Make a test booking, and confirm it appears in Admin → Bookings.
+
+Every push to `main` redeploys. Bookings live in MySQL, so they survive redeploys; Hostinger wipes the app folder each time. Back up the database from hPanel regularly.
+
+### Going live on yamsarresort.in
+Hostinger's Node.js flow needs the domain to be free: *"If the domain … is already added to your hosting plan, remove that website first."*
+1. Deploy to Hostinger's **temporary domain** or a **subdomain** first (e.g. `new.yamsarresort.in`) and test everything.
+2. **Back up the current WordPress site** (hPanel → Backups, or a plugin export).
+3. Remove the WordPress website from the plan, then add the Node.js app on `yamsarresort.in` and set `SITE_URL` to it.
+
+### Other hosts
+`npm run build:hostinger && node build/server.mjs` runs anywhere with Node 22+. That covers a VPS, Railway or Render.
+Storage is picked from the environment:
+
+| Environment | Storage |
+|---|---|
+| `DB_HOST` + `DB_NAME`, or `DATABASE_URL=mysql://…` | MySQL / MariaDB |
+| `DATABASE_URL=postgres://…` | Postgres (apply `db/postgres-schema.sql` first) |
+| neither | SQLite file at `DB_PATH` (needs a persistent disk) |
+
+`ADMIN_PASSWORD` only sets the **first** password. After that, change it in Admin → Settings. To force a reset, set `ADMIN_PASSWORD_RESET=1` together with a new `ADMIN_PASSWORD`, sign in once, then remove the reset flag.
 
 ## Email notifications
 
-Set these in `.env` and restart. `.env.example` has the full list.
+Add these to the app's environment variables (locally: `.env`). `.env.example` has the full list.
 
 ```
 SMTP_HOST=smtp.gmail.com
@@ -48,6 +93,7 @@ SITE_URL=https://yamsarresort.in
 ```
 
 For Gmail, turn on 2-Step Verification for the account. Then create an **App Password** at https://myaccount.google.com/apppasswords and use it as `SMTP_PASS`. Your normal Gmail password won't work.
+If you have Hostinger email for the domain, you can use `SMTP_HOST=smtp.hostinger.com`, port `465`, with that mailbox's address and password instead.
 
 Once set up, emails go out as follows:
 

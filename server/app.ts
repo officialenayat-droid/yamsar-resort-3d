@@ -1,7 +1,6 @@
 /**
- * The Yamsar Resort booking & admin API (Hono). Runtime-neutral:
- *   server/node.ts                  – Node + SQLite (local dev, single server)
- *   supabase/functions/api/index.ts – Supabase Edge (Deno) + Postgres (production)
+ * The Yamsar Resort booking & admin API (Hono). Started by server/node.ts, which
+ * picks the storage (MySQL on Hostinger, Postgres, or SQLite locally).
  */
 import { Hono, type Context, type MiddlewareHandler } from 'hono'
 import { randomBytes } from 'node:crypto'

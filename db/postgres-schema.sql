@@ -1,6 +1,6 @@
 -- The Yamsar Resort website: bookings & admin data.
 -- Lives in its own "website" schema. It is NOT exposed through the Data API;
--- only the `api` Edge Function (connecting as the database owner) reads/writes it.
+-- only the Node server (connecting as the database owner, DATABASE_URL=postgres://…) reads/writes it.
 create schema if not exists website;
 
 create table if not exists website.kv (

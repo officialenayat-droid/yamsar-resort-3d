@@ -78,7 +78,7 @@ async function send(to: string[], subject: string, html: string, text: string, r
 /** Run without awaiting; errors are logged and surfaced in the admin status. */
 const background = (p: Promise<unknown>) => {
   const safe = p.catch(() => {})
-  // on Supabase Edge, keep the worker alive until the email is sent
+  // on serverless/edge runtimes, keep the worker alive until the email is sent
   const rt = (globalThis as unknown as { EdgeRuntime?: { waitUntil(p: Promise<unknown>): void } }).EdgeRuntime
   rt?.waitUntil(safe)
 }
