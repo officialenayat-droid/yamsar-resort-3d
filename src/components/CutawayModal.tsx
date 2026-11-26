@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { BedDouble, Flame, Maximize2, Mountain, Users, X } from 'lucide-react'
+import { BedDouble, Camera, Flame, Maximize2, Mountain, Sparkles, Users, X } from 'lucide-react'
+import { RoomGallery } from './RoomGallery'
 import { actions, useStore } from '../state/store'
 import { inr, type CabinId } from '../data'
 import { useConfig, useStay } from '../state/config'
@@ -41,6 +43,9 @@ function CutawayBody({ id }: { id: CabinId }) {
   const { settings } = useConfig()
   const lit = useStore((s) => s.lit[id])
   const night = useStore((s) => s.night)
+  const stoveFound = useStore((s) => s.found.bukhari)
+  const photos = stay.photos ?? []
+  const [view, setView] = useState<'photos' | 'illustrated'>(photos.length ? 'photos' : 'illustrated')
   return (
     <div className="grid md:grid-cols-[1.35fr_1fr]">
       <button
@@ -50,19 +55,46 @@ function CutawayBody({ id }: { id: CabinId }) {
       >
         <X size={18} />
       </button>
-      <div className="relative aspect-[640/440] overflow-hidden rounded-t-3xl bg-[#2a2320] md:aspect-auto md:min-h-[440px] md:rounded-l-3xl md:rounded-tr-none">
-        <Interior id={id} lit={lit} night={night} />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-sm text-parchment">
-          {lit ? (
-            <span className="inline-flex items-center gap-2">
-              <Flame size={16} className="text-saffron" /> The Bukhari is crackling. Pull up a namda rug.
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-2">
-              <Flame size={16} className="text-saffron" /> Tap the cast-iron Bukhari stove to light it.
-            </span>
-          )}
-        </div>
+      <div className="relative aspect-[4/3] overflow-hidden rounded-t-3xl bg-[#2a2320] md:aspect-auto md:min-h-[480px] md:rounded-l-3xl md:rounded-tr-none">
+        {view === 'photos' && photos.length > 0 ? (
+          <RoomGallery photos={photos} name={stay.name} />
+        ) : (
+          <>
+            <Interior id={id} lit={lit} night={night} />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-sm text-parchment">
+              {lit ? (
+                <span className="inline-flex items-center gap-2">
+                  <Flame size={16} className="text-saffron" /> The Bukhari is crackling. Pull up a namda rug.
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-2">
+                  <Flame size={16} className="text-saffron" /> Tap the cast-iron Bukhari stove to light it.
+                </span>
+              )}
+            </div>
+          </>
+        )}
+        {photos.length > 0 && (
+          <div className="absolute left-1/2 top-3 z-20 flex -translate-x-1/2 rounded-full bg-black/50 p-1 text-xs font-semibold text-white backdrop-blur" role="tablist" aria-label="Room view">
+            <button
+              role="tab"
+              aria-selected={view === 'photos'}
+              onClick={() => setView('photos')}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition ${view === 'photos' ? 'bg-parchment text-pine' : 'hover:bg-white/15'}`}
+            >
+              <Camera size={13} /> Photos
+            </button>
+            <button
+              role="tab"
+              aria-selected={view === 'illustrated'}
+              onClick={() => setView('illustrated')}
+              className={`relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition ${view === 'illustrated' ? 'bg-parchment text-pine' : 'hover:bg-white/15'}`}
+            >
+              <Sparkles size={13} /> Storybook
+              {!stoveFound && view !== 'illustrated' && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-saffron hotspot-dot" aria-label="A little adventure is hidden here" />}
+            </button>
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-4 p-6 sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-glacier">Signature stay</p>

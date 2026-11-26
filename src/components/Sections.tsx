@@ -5,6 +5,7 @@ import { actions, useStore } from '../state/store'
 import { inr } from '../data'
 import { useConfig } from '../state/config'
 import { StayVignette } from '../svg/Illustrations'
+import { RoomPhoto } from './RoomGallery'
 
 const reveal = {
   initial: { opacity: 0, y: 40 },
@@ -82,8 +83,15 @@ export function Suites() {
             >
               <button className="relative aspect-[16/10] overflow-hidden" onClick={() => actions.openCutaway(s.id)} aria-label={`Step inside the ${s.name}`}>
                 <div className="h-full w-full transition-transform duration-700 group-hover:scale-105">
-                  <StayVignette kind={s.id} night={night || lit[s.id]} />
+                  {s.photos?.length ? (
+                    <RoomPhoto photo={s.photos[0]} sizes="(min-width: 768px) 33vw, 100vw" />
+                  ) : (
+                    <StayVignette kind={s.id} night={night || lit[s.id]} />
+                  )}
                 </div>
+                {s.photos && s.photos.length > 1 && (
+                  <span className="absolute bottom-3 right-3 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">📷 {s.photos.length} photos</span>
+                )}
                 <span className="absolute left-3 top-3 rounded-full bg-parchment/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-cedar">
                   Sleeps {s.sleeps} · {s.size}
                 </span>

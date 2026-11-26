@@ -228,7 +228,8 @@ function BookingForm({ initialCabin }: { initialCabin: CabinId }) {
                   className={`flex w-full items-center justify-between rounded-2xl border-2 px-4 py-3 text-left transition-colors ${cabin === s.id ? 'border-saffron bg-saffron/5' : 'border-cedar/15 bg-white/70 hover:border-cedar/35'} ${full ? 'opacity-60' : ''}`}
                   aria-pressed={cabin === s.id}
                 >
-                  <div>
+                  {s.photos?.[0] && <img src={`${s.photos[0].base}-240.webp`} alt="" loading="lazy" className="mr-3 h-12 w-14 shrink-0 rounded-lg object-cover" />}
+                  <div className="min-w-0 flex-1">
                     <div className="text-sm font-semibold text-ink">{s.name}</div>
                     <div className="text-xs text-ink/55">
                       Sleeps {s.sleeps} · {s.size}

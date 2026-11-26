@@ -14,6 +14,14 @@ export interface Season {
   rate: number
 }
 
+export interface StayPhoto {
+  /** path without size suffix; files are <base>-240.webp, <base>-800.webp, <base>-1600.webp */
+  base: string
+  alt: string
+  w: number
+  h: number
+}
+
 export interface StayConfig {
   id: CabinId
   name: string
@@ -31,6 +39,8 @@ export interface StayConfig {
   /** how many rooms of this type exist (inventory) */
   units: number
   active: boolean
+  /** real photos (managed in code, shown in galleries); empty = illustrated only */
+  photos?: StayPhoto[]
 }
 
 export type AddonPer = 'adult' | 'guest' | 'stay' | 'night'

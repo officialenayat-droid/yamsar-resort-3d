@@ -39,6 +39,38 @@ export const DEFAULT_CONFIG: PublicConfig = {
       features: ['2 beds', ...ROOM_FACILITIES],
       units: 2, // VERIFY
       active: true,
+      photos: [
+        {
+          "base": "/rooms/chinar/01",
+          "alt": "Chinar Premium Suite: carved wooden bed with navy cushions above a hand-knotted Kashmiri carpet",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/chinar/02",
+          "alt": "Chinar Premium Suite with pine walls, wall lamps, a wall-mounted TV and writing desk",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/chinar/03",
+          "alt": "Carved wooden bed framed by bedside lamps and a chinar-tree motif, with armchairs by the window",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/chinar/04",
+          "alt": "Chinar Premium Suite with seating area by the curtained windows and the bathroom door",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/chinar/05",
+          "alt": "Complimentary tea tray with kettle, glasses, tea and snacks in the Chinar Premium Suite",
+          "w": 1600,
+          "h": 1067
+        }
+      ],
     },
     {
       id: 'glacier',
@@ -54,6 +86,44 @@ export const DEFAULT_CONFIG: PublicConfig = {
       features: ['2 beds', ...ROOM_FACILITIES],
       units: 2, // VERIFY
       active: true,
+      photos: [
+        {
+          "base": "/rooms/alpine/01",
+          "alt": "Alpine Deluxe Room: double bed with a Kashmiri carpet beneath a hand-carved wooden ceiling and peaked window",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/alpine/02",
+          "alt": "Pine-panelled Alpine Deluxe Room with carved ceiling, two peaked windows and a TV unit",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/alpine/03",
+          "alt": "Bed with crisp white linen and navy cushions on a hand-knotted Kashmiri rug",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/alpine/04",
+          "alt": "Alpine Deluxe Room with carved wooden ceiling, writing table and TV",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/alpine/05",
+          "alt": "View into the Alpine Deluxe Room from the doorway, with tea tray and bottled water",
+          "w": 1600,
+          "h": 1067
+        },
+        {
+          "base": "/rooms/alpine/06",
+          "alt": "Long view of the pine-clad Alpine Deluxe Room with kettle and seating",
+          "w": 1600,
+          "h": 1067
+        }
+      ],
     },
   ],
   addons: [
