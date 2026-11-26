@@ -8,7 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
 dist-ssr
 *.local
 
@@ -27,4 +26,6 @@ dist-ssr
 data/
 .env
 screenshots/
-build/
+
+# NOTE: dist/ and build/ ARE committed on purpose: Hostinger starts build/server.mjs
+# without running a build step. Run `npm run build` and commit both after code changes.

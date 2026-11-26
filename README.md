@@ -60,6 +60,8 @@ Click **Deploy**. When it's green:
 - Open the site. Then go to `/admin` and sign in with `ADMIN_PASSWORD`. Change the password under Settings.
 - Make a test booking, and confirm it appears in Admin → Bookings.
 
+**Important:** Hostinger checks for the entry file *before* any build runs, so the ready-built `build/` and `dist/` folders are committed to the repo. After changing code, run `npm run build` and commit both folders, or the live site won't change.
+
 Every push to `main` redeploys. Bookings live in MySQL, so they survive redeploys; Hostinger wipes the app folder each time. Back up the database from hPanel regularly.
 
 ### Going live on yamsarresort.in
