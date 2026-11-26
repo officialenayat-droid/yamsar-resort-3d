@@ -29,7 +29,63 @@ const DEFAULT_CONFIG = {
 			view: "Mountain view",
 			features: ["Double bed", ...ROOM_FACILITIES],
 			units: 1,
-			active: true
+			active: true,
+			photos: [
+				{
+					"base": "/rooms/yamsar/01",
+					"alt": "Yamsar Suite bedroom: double bed on a Kashmiri carpet beneath a hand-carved wooden ceiling, with an exposed-brick column",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/02",
+					"alt": "The suite’s dewan: a traditional Kashmiri sitting room with floor cushions, a green carpet and a low table under a peaked window",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/03",
+					"alt": "Bed with crisp white linen beside a round wooden side table, with the dewan visible beyond",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/04",
+					"alt": "Dewan with floor seating and bolster cushions, opening onto the bedroom",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/05",
+					"alt": "Yamsar Suite bedroom with peaked windows, armchairs and a wall-mounted TV",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/06",
+					"alt": "Floor seating in the dewan, with the bedroom and its carved ceiling beyond",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/07",
+					"alt": "The dewan with a tea and snacks tray, cushions along the walls and a peaked window",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/08",
+					"alt": "Writing table with kettle and snacks, a TV and the doorway to the bedroom",
+					"w": 1600,
+					"h": 1067
+				},
+				{
+					"base": "/rooms/yamsar/09",
+					"alt": "Complimentary tea tray with kettle, juices and snacks on a carved walnut table",
+					"w": 1600,
+					"h": 1067
+				}
+			]
 		},
 		{
 			id: "riverfront",
